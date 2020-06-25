@@ -1,4 +1,6 @@
-const moongose = require('mongoose');
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
+
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -6,6 +8,21 @@ const userSchema = new Schema({
   password: String
 });
 
-const ModelClass = moongose.model('user', userSchema);
+userSchema.pre('save', function(next) {
+  const user = this;
+
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) return next(err);
+
+    bcrypt.hash(user.password, salt, null, (err, hash) => {
+      if (err) return next(err);
+
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+const ModelClass = mongoose.model('user', userSchema);
 
 module.exports = ModelClass;
