@@ -8,6 +8,7 @@ import reduxThunk from 'redux-thunk';
 import reducers from './reducers';
 
 import App from './components/App';
+import Feature from './components/Feature';
 import Signup from './components/auth/Signup';
 import Welcome from './components/Welcome';
 
@@ -22,6 +23,7 @@ ReactDOM.render(
     <BrowserRouter>
       <App>
         <Route path="/" exact component={Welcome} />
+        <Route path="/feature" exact component={Feature} />
         <Route path="/signup" exact component={Signup} />
       </App>
     </BrowserRouter>
